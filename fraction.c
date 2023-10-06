@@ -18,12 +18,17 @@ int Fraction::GCD( int x, int y ){
     }
 }
 
+
+//constructors
 Fraction::Fraction() : numerator( 0 ), denominator( 1 ){};
+
 Fraction::Fraction( int n ) : numerator( n ), denominator( 1 ){};
+
 Fraction::Fraction( int n, int d ) : numerator( n ), denominator( d ){
     if( denominator == 0 ) throw st::domain_error( "bad fraction" );
 };
 
+/**/
 std::string Fraction::to_string(){
     std::ostringstream os;
     os << "[" << numerator << "/" << denominator << "]";
@@ -34,6 +39,7 @@ double Fraction::get_double(){
     return double( numerator ) / double( denominator );
 }
 
+//operators overloading
 Fraction Fraction::operator!(){ //zwraca obiekt Fraction po redukcji
     int gcd = GCD( numerator, denominator );
     return Fraction( numerator / gcd, denominator / gcd );
@@ -46,3 +52,17 @@ Fraction Fraction::operator+( Fraction arg ){
     return f;
 }
 
+Fraction Fraction::operator*( Fraction arg ){
+    int new_numerator = numerator * denominator;
+    int new_denominator = denominator * arg.denominator;
+    Fraction f( new_numerator, new_denominator );
+    return !f; //przed zwróceniem redukuje ułamek
+}
+
+Fraction Fraction::operator/( Fraction arg ){
+    if( arg.numerator = 0 ) throw std::domain_error( "division by zero!" );
+    int new_numerator = numerator * arg.denominator; //
+    int new_denominator = denominator * arg.numerator;
+    Fraction f( new_numerator, new_denominator );
+    return !f;
+}
