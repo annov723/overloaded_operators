@@ -38,3 +38,11 @@ Fraction Fraction::operator!(){ //zwraca obiekt Fraction po redukcji
     int gcd = GCD( numerator, denominator );
     return Fraction( numerator / gcd, denominator / gcd );
 }
+
+Fraction Fraction::operator+( Fraction arg ){
+    int commmon_denominator = LCM( denominator, arg.denominator ); //znajdujemy wspólny dzielnik
+    int new_numerator = numerator * common_denominator / denominator + arg.numerator * commmon_denominator / arg.denominator; //dodajemy oba ułamki mając wspóony mianownik
+    Fraction f( new_numerator, common_denominator );
+    return f;
+}
+
