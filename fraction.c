@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <sstream> //with ostringstream class, object behaves as an output stream keeping data in an internal buffer which can be accessed with str() method
+#include <iostream>
 
 int Fraction::LCM( int x, int y ){
     int i = y;
@@ -52,6 +53,13 @@ Fraction Fraction::operator+( Fraction arg ){
     return f;
 }
 
+Fraction Fraction::operator-( Fraction arg ){
+    int commmon_denominator = LCM( denominator, arg.denominator ); //znajdujemy wspólny dzielnik
+    int new_numerator = numerator * common_denominator / denominator - arg.numerator * commmon_denominator / arg.denominator; //dodajemy oba ułamki mając wspóony mianownik
+    Fraction f( new_numerator, common_denominator );
+    return f;
+}
+
 Fraction Fraction::operator*( Fraction arg ){
     int new_numerator = numerator * denominator;
     int new_denominator = denominator * arg.denominator;
@@ -61,8 +69,20 @@ Fraction Fraction::operator*( Fraction arg ){
 
 Fraction Fraction::operator/( Fraction arg ){
     if( arg.numerator = 0 ) throw std::domain_error( "division by zero!" );
-    int new_numerator = numerator * arg.denominator; //
+    int new_numerator = numerator * arg.denominator; //bo dzieląc ułamki mnożymy ich odwrotność
     int new_denominator = denominator * arg.numerator;
     Fraction f( new_numerator, new_denominator );
     return !f;
+}
+
+Fraction Fraction::operator+=( Fraction arg ){ //podwojenie wartości ułamka
+    int common_denominator = LCM( denominator, arg.denominator );
+    int new_numerator = numerator * common_denominator / denominator + arg.numerator * common_denominator / arg.denominator;
+    numerator = new_numerator;
+    denominator = common_denominator;
+    return *this;
+}
+
+std::ostream& operator<<( std::ostream &ostr, Fraction &f ){
+    return ostr << f.to_string();
 }

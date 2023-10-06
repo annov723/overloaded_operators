@@ -25,4 +25,5 @@ public:
 };
 
 std::ostream& operator<<( std::ostream &ostr, Fraction &f );
+
 #endif
