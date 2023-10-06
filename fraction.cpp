@@ -26,7 +26,7 @@ Fraction::Fraction() : numerator( 0 ), denominator( 1 ){};
 Fraction::Fraction( int n ) : numerator( n ), denominator( 1 ){};
 
 Fraction::Fraction( int n, int d ) : numerator( n ), denominator( d ){
-    if( denominator == 0 ) throw st::domain_error( "bad fraction" );
+    if( denominator == 0 ) throw std::domain_error( "bad fraction" );
 };
 
 /**/
@@ -47,35 +47,36 @@ Fraction Fraction::operator!(){ //zwraca obiekt Fraction po redukcji
 }
 
 Fraction Fraction::operator+( Fraction arg ){
-    int commmon_denominator = LCM( denominator, arg.denominator ); //znajdujemy wspólny dzielnik
-    int new_numerator = numerator * common_denominator / denominator + arg.numerator * commmon_denominator / arg.denominator; //dodajemy oba ułamki mając wspóony mianownik
+    int common_denominator = LCM( denominator, arg.denominator ); //znajdujemy wspólny dzielnik
+    int new_numerator = numerator * common_denominator / denominator + arg.numerator * common_denominator / arg.denominator; //dodajemy oba ułamki mając wspóony mianownik
     Fraction f( new_numerator, common_denominator );
     return f;
 }
 
 Fraction Fraction::operator-( Fraction arg ){
-    int commmon_denominator = LCM( denominator, arg.denominator ); //znajdujemy wspólny dzielnik
-    int new_numerator = numerator * common_denominator / denominator - arg.numerator * commmon_denominator / arg.denominator; //dodajemy oba ułamki mając wspóony mianownik
+    int common_denominator = LCM( denominator, arg.denominator ); //znajdujemy wspólny dzielnik
+    int new_numerator = numerator * common_denominator / denominator - arg.numerator * common_denominator / arg.denominator; //dodajemy oba ułamki mając wspóony mianownik
     Fraction f( new_numerator, common_denominator );
     return f;
 }
 
 Fraction Fraction::operator*( Fraction arg ){
-    int new_numerator = numerator * denominator;
+    int new_numerator = numerator * arg.numerator;
     int new_denominator = denominator * arg.denominator;
     Fraction f( new_numerator, new_denominator );
     return !f; //przed zwróceniem redukuje ułamek
 }
 
 Fraction Fraction::operator/( Fraction arg ){
-    if( arg.numerator = 0 ) throw std::domain_error( "division by zero!" );
+    if( arg.numerator == 0 ) throw std::domain_error( "division by zero!" );
     int new_numerator = numerator * arg.denominator; //bo dzieląc ułamki mnożymy ich odwrotność
     int new_denominator = denominator * arg.numerator;
+
     Fraction f( new_numerator, new_denominator );
     return !f;
 }
 
-Fraction Fraction::operator+=( Fraction arg ){ //podwojenie wartości ułamka
+Fraction& Fraction::operator+=( Fraction arg ){ //podwojenie wartości ułamka
     int common_denominator = LCM( denominator, arg.denominator );
     int new_numerator = numerator * common_denominator / denominator + arg.numerator * common_denominator / arg.denominator;
     numerator = new_numerator;
